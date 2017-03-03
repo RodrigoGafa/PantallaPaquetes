@@ -37,6 +37,7 @@ class AgregarTarjeta: UIView, UIPickerViewDelegate, UIPickerViewDataSource {
     @IBOutlet var Guardar: UIButton!
     
     let pickerOptions:[String] = ["01","02","03","04","05","06","07","08","09","10","11","12"]
+    var expYear:[String] = [String]()
     
     let datePicker = UIDatePicker()
     
@@ -49,6 +50,19 @@ class AgregarTarjeta: UIView, UIPickerViewDelegate, UIPickerViewDataSource {
     
     
     override func awakeFromNib() {
+        
+        let date = Date()
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day], from: date)
+        let year =  components.year
+        
+        
+        
+        for expiration in year!...year! + 10{
+            print(expiration)
+            let years = String(expiration)
+            expYear.append(years)
+        }
         
         Guardar.layer.cornerRadius = 25
         
@@ -101,6 +115,8 @@ class AgregarTarjeta: UIView, UIPickerViewDelegate, UIPickerViewDataSource {
         
         let pickerView:UIPickerView = UIPickerView()
         
+        pickerView.tag = 1
+        
         pickerView.delegate = self
         
         pickerView.dataSource = self
@@ -120,6 +136,32 @@ class AgregarTarjeta: UIView, UIPickerViewDelegate, UIPickerViewDataSource {
         toolbar.setItems([doneButton], animated: false)
         
         Mes.inputAccessoryView = toolbar
+        
+        // ADDED
+        
+        let expYearPickerView:UIPickerView = UIPickerView()
+        
+        expYearPickerView.tag = 2
+        
+        expYearPickerView.delegate = self
+        
+        expYearPickerView.dataSource = self
+        
+        expYearPickerView.backgroundColor = .white
+        
+        Año.inputView = expYearPickerView
+        
+        let expYearToolbar:UIToolbar = UIToolbar()
+        
+        expYearToolbar.sizeToFit()
+        
+        expYearToolbar.tintColor = .gray
+        
+        let expYearDoneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(doneEditing))
+        
+        toolbar.setItems([expYearDoneButton], animated: false)
+        
+        Año.inputAccessoryView = toolbar
         
         
     
@@ -148,14 +190,44 @@ class AgregarTarjeta: UIView, UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerOptions.count
+       
+        let tag = pickerView.tag
+        
+        var count:Int?
+        
+        if tag == 1{
+            count = pickerOptions.count
+        } else if tag == 2{
+            count = expYear.count
+        }
+        
+        return count!
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerOptions[row]
+        
+        var displayText:String?
+        
+        let tag = pickerView.tag
+        
+        if tag == 1{
+            displayText = pickerOptions[row]
+        } else if tag == 2{
+            displayText = expYear[row]
+        }
+        
+        return displayText
     }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        Mes.text = pickerOptions[row]
+        
+        let tag = pickerView.tag
+        
+        if tag == 1{
+            Mes.text = pickerOptions[row]
+        } else if tag == 2{
+            Año.text = expYear[row]
+        }
+        
     }
     
     func nombreResponder(sender:UITapGestureRecognizer) {

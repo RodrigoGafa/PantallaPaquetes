@@ -89,7 +89,7 @@
                         <action selector="cardNumberDidChangeWithSender:" destination="aiL-l5-q2J" eventType="editingDidEnd" id="1em-Qn-WhC"/>
                     </connections>
                 </textField>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lHc-dR-BNf">
+                <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lHc-dR-BNf">
                     <rect key="frame" x="54" y="218" width="47" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="1iZ-O8-zCI"/>
@@ -117,7 +117,7 @@
                         <constraint firstAttribute="width" constant="86" id="uso-bp-kWI"/>
                     </constraints>
                 </imageView>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Af5-Oy-ExZ">
+                <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Af5-Oy-ExZ">
                     <rect key="frame" x="145" y="218" width="47" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="7Df-rr-Cfi"/>
