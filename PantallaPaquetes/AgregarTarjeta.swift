@@ -40,6 +40,8 @@ class AgregarTarjeta: UIView, UIPickerViewDelegate, UIPickerViewDataSource {
     
     let datePicker = UIDatePicker()
     
+    var creditCardValidator: CreditCardValidator!
+    
     class func instanceFromNib() -> UIView {
         return UINib(nibName: "AgregarTarjeta", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! UIView
 
@@ -49,48 +51,23 @@ class AgregarTarjeta: UIView, UIPickerViewDelegate, UIPickerViewDataSource {
     override func awakeFromNib() {
         
         Guardar.layer.cornerRadius = 25
+        
+        NoTarjeta.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
+
         // MARK CARD VALIDATION
         
             // 5300 MasterCard
             // 4000 Visa
             // 3712 AmericanExpress
         
-        let number = "3712 5691 0360 4567"
         
-        let v = CreditCardValidator()
-        
-        if let type = v.type(from: number) {
-            
-            var cardType = type.name
-                        
-            switch cardType {
-        
-            case "MasterCard":
-            
-                cardType = type.name
-                Master.image = #imageLiteral(resourceName: "MasterCard")
-                
-            case "Visa":
-                
-                cardType = type.name
-                VisaCard.image = #imageLiteral(resourceName: "Visa")
-                
-            case "Amex":
-                
-                cardType = type.name
-                Amex.image = #imageLiteral(resourceName: "AmericanExpress")
-                
-            default:
-                print("Error in switch")
-            }
-        } else {
-            // I Can't detect type of credit card
-            print("Error")
-        }
+        creditCardValidator = CreditCardValidator()
+
+       
         
         #if (arch(i386) || arch(x86_64)) && os(iOS)
             self.Nombre.text = "Rodrigo Najera"
-            self.NoTarjeta.text = "3712 5691 0360 4567"
+            //self.NoTarjeta.text = "3712 5691 0360 4567"
             self.Mes.text = "01"
             self.Año.text = "2019"
             self.CVV.text = "123"
@@ -148,6 +125,18 @@ class AgregarTarjeta: UIView, UIPickerViewDelegate, UIPickerViewDataSource {
     
     }
     
+    func textFieldChanged(sender: UITextField){
+        if let number = sender.text {
+            if number.isEmpty {
+                Amex.image = #imageLiteral(resourceName: "AmericanExpressWhite")
+                VisaCard.image = #imageLiteral(resourceName: "VisaWhite")
+                Master.image = #imageLiteral(resourceName: "MasterCardWhite")
+            } else {
+                detectCardNumberType(number: number)
+            }
+        }
+    }
+    
     func doneEditing(){
     
             // Add implementation in real project
@@ -197,4 +186,55 @@ class AgregarTarjeta: UIView, UIPickerViewDelegate, UIPickerViewDataSource {
         CVV.becomeFirstResponder()
         
     }
+    
+    
+    /**
+     Credit card type detection
+     
+     - parameter number: credit card number
+     */
+    func detectCardNumberType(number: String) {
+        if let type = creditCardValidator.type(from: number) {
+            print("Type Name -> \(type.name)")
+            if let type = creditCardValidator.type(from: number) {
+                
+                var cardType = type.name
+                
+                switch cardType {
+                    
+                case "MasterCard":
+                    
+                    cardType = type.name
+                    Master.image = #imageLiteral(resourceName: "MasterCard")
+                    VisaCard.image = #imageLiteral(resourceName: "VisaWhite")
+                    Amex.image = #imageLiteral(resourceName: "AmericanExpressWhite")
+                    
+                case "Visa":
+                    
+                    cardType = type.name
+                    VisaCard.image = #imageLiteral(resourceName: "Visa")
+                    Master.image = #imageLiteral(resourceName: "MasterCardWhite")
+                    Amex.image = #imageLiteral(resourceName: "AmericanExpressWhite")
+
+
+                    
+                case "Amex":
+                    
+                    cardType = type.name
+                    Amex.image = #imageLiteral(resourceName: "AmericanExpress")
+                    VisaCard.image = #imageLiteral(resourceName: "VisaWhite")
+                    Master.image = #imageLiteral(resourceName: "MasterCardWhite")
+
+                    
+                default:
+                    print("Error in switch")
+                }
+            } else {
+                // I Can't detect type of credit card
+                print("Error")
+            }
+        }
+    }
+    
+   
 }

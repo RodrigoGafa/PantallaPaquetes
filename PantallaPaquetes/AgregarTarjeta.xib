@@ -85,6 +85,9 @@
                     <nil key="textColor"/>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
+                    <connections>
+                        <action selector="cardNumberDidChangeWithSender:" destination="aiL-l5-q2J" eventType="editingDidEnd" id="1em-Qn-WhC"/>
+                    </connections>
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lHc-dR-BNf">
                     <rect key="frame" x="54" y="218" width="47" height="30"/>
